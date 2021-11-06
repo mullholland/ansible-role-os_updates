@@ -1,0 +1,53 @@
+---
+- name: Debian | Install aptitude
+  apt:
+    name: "aptitude"
+    state: present
+    update_cache: true
+
+- name: Debian | Mark packages for hold (apt-mark)
+  command: "apt-mark hold {{ item }}"
+  changed_when: false
+  with_items:
+    - "{{ os_updates_apt_exclude }}"
+
+- name: Debian | Mark packages for hold (APTITUDE)
+  command: "aptitude hold {{ item }}"
+  changed_when: false
+  with_items:
+    - "{{ os_updates_apt_exclude }}"
+
+- name: Debian | APT autoremove
+  apt:
+    autoremove: true
+  when: os_updates_apt_autoremove | bool
+
+- name: Debian | Install OS Updates
+  apt:
+    upgrade: "full"
+
+- name: Debian | Mark packages for unhold (APTITUDE)
+  command: "aptitude unhold {{ item }}"
+  changed_when: false
+  with_items:
+    - "{{ os_updates_apt_exclude }}"
+
+- name: Debian | Mark packages for unhold (apt-mark)
+  command: "apt-mark unhold {{ item }}"
+  changed_when: false
+  with_items:
+    - "{{ os_updates_apt_exclude }}"
+
+- name: Debian | Check if a reboot is required
+  stat:
+    path: /var/run/reboot-required
+  register: debian_needs_restart
+
+- name: Debian | Reboot machine if needed or forced
+  reboot:
+    post_reboot_delay: "{{ os_updates_reboot_delay | default('0') }}"
+    reboot_timeout: "{{ os_updates_reboot_timeout }}"
+  when:
+    - (debian_needs_restart.stat.exists and os_updates_reboot != "NEVER") or os_updates_reboot == "ALWAYS"
+  tags:
+    - molecule-notest
