@@ -44,26 +44,7 @@ This example is taken from `molecule/default/converge.yml` and is tested on each
   become: true
   gather_facts: true
   roles:
-    - role: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
-```
-
-The machine needs to be prepared in CI this is done using `molecule/default/prepare.yml`:
-```yaml
----
-- name: Prepare
-  hosts: all
-  become: true
-  gather_facts: true
-
-  tasks:
-    - name: SmokeTests
-      debug:
-        msg:
-          - "ansible_version => {{ansible_version}}"
-          - "ansible_distribution => {{ ansible_distribution }}"
-          - "ansible_distribution_major_version => {{ ansible_distribution_major_version }}"
-          - "ansible_os_family  => {{ ansible_os_family}}"
-          - "ansible_system  => {{ ansible_system }}"
+    - role: "mullholland.os_updates"
 ```
 
 
