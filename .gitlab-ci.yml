@@ -21,7 +21,7 @@ linting:
 "default-29":
   needs:
     - "linting"
-  stage: "default_29"
+  stage: "default-29"
   image: "registry.gitlab.com/mullholland/docker-molecule-github-action:latest"
   variables:
     SCENARIO: "default"
@@ -34,7 +34,7 @@ linting:
 "default-210":
   needs:
     - "linting"
-  stage: "default_210"
+  stage: "default-210"
   image: "registry.gitlab.com/mullholland/docker-molecule-github-action:latest"
   variables:
     SCENARIO: "default"
@@ -47,7 +47,7 @@ linting:
 "default-211":
   needs:
     - "linting"
-  stage: "default_211"
+  stage: "default-211"
   image: "registry.gitlab.com/mullholland/docker-molecule-github-action:latest"
   variables:
     SCENARIO: "default"
