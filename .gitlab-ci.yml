@@ -1,4 +1,9 @@
 ---
+image: "registry.gitlab.com/mullholland/docker-molecule-github-action:latest"
+
+services:
+  - docker:dind
+
 stages:
   - linting
   - "default-29"
@@ -6,54 +11,57 @@ stages:
   - "default-211"
 
 variables:
+  DOCKER_HOST: "tcp://docker:2375"
   PY_COLORS: 1
   ANSIBLE_FORCE_COLOR: 1
 
-services:
-  - docker:dind
-
 linting:
   stage: linting
-  image: "registry.gitlab.com/mullholland/docker-molecule-github-action:latest"
   variables:
     COMMAND: "lint"
   script:
     - "command=${COMMAND} /opt/molecule.sh"
 
+
 "default-29":
   needs:
     - "linting"
   stage: "default-29"
-  image: "registry.gitlab.com/mullholland/docker-molecule-github-action:latest"
   variables:
     SCENARIO: "default"
     ANSIBLE: "2.9"
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "main"
   parallel:
     matrix:
       - PLATFORM: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos8, centos8-stream, ubi8, fedora33, fedora34, fedora35, rockylinux8, almalinux8, amazonlinux]  # yamllint disable-line rule:line-length
   script:
     - "scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh"
+
 "default-210":
   needs:
     - "linting"
   stage: "default-210"
-  image: "registry.gitlab.com/mullholland/docker-molecule-github-action:latest"
   variables:
     SCENARIO: "default"
     ANSIBLE: "2.10"
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "main"
   parallel:
     matrix:
       - PLATFORM: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos8, centos8-stream, ubi8, fedora33, fedora34, fedora35, rockylinux8, almalinux8, amazonlinux]  # yamllint disable-line rule:line-length
   script:
     - "scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh"
+
 "default-211":
   needs:
     - "linting"
   stage: "default-211"
-  image: "registry.gitlab.com/mullholland/docker-molecule-github-action:latest"
   variables:
     SCENARIO: "default"
     ANSIBLE: "2.11"
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "main"
   parallel:
     matrix:
       - PLATFORM: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos8, centos8-stream, ubi8, fedora33, fedora34, fedora35, rockylinux8, almalinux8, amazonlinux]  # yamllint disable-line rule:line-length
