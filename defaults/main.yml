@@ -16,7 +16,6 @@ os_updates_apt_upgrade: "safe"
 os_updates_apt_exclude: []
 os_updates_apt_autoremove: true
 
-# Check ports after reboot
-os_updates_reboot_host_address: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+# reboot options
 os_updates_reboot_delay: 30
 os_updates_reboot_timeout: 300

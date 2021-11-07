@@ -15,8 +15,10 @@ services:
 linting:
   stage: linting
   image: "registry.gitlab.com/mullholland/docker-molecule-github-action:latest"
+  variables:
+    COMMAND: "lint"
   script:
-    - "molecule lint"
+    - "command=${COMMAND} /opt/molecule.sh"
 
 "default-29":
   needs:
