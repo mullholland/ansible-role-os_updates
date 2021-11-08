@@ -11,7 +11,7 @@ driver:
   name: docker
 platforms:
   - name: "${scenario:-default}-${ansible:-latest}-${platform:-fedora35}"
-    image: "${namespace:-mullholland}/docker-molecule-${platform:-fedora35}"
+    image: "${namespace:-ghcr.io/mullholland}/docker-molecule-${platform:-fedora35}"
     command: /sbin/init
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
