@@ -1,18 +1,12 @@
 ---
-- name: Debian | Install aptitude
+- name: Debian | Install needrestart for needs-restarting
   apt:
-    name: "aptitude"
+    name: "needrestart"
     state: present
     update_cache: true
 
 - name: Debian | Mark packages for hold (apt-mark)
   command: "apt-mark hold {{ item }}"
-  changed_when: false
-  with_items:
-    - "{{ os_updates_apt_exclude }}"
-
-- name: Debian | Mark packages for hold (APTITUDE)
-  command: "aptitude hold {{ item }}"
   changed_when: false
   with_items:
     - "{{ os_updates_apt_exclude }}"
@@ -25,12 +19,6 @@
 - name: Debian | Install OS Updates
   apt:
     upgrade: "full"
-
-- name: Debian | Mark packages for unhold (APTITUDE)
-  command: "aptitude unhold {{ item }}"
-  changed_when: false
-  with_items:
-    - "{{ os_updates_apt_exclude }}"
 
 - name: Debian | Mark packages for unhold (apt-mark)
   command: "apt-mark unhold {{ item }}"
