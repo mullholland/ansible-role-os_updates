@@ -2,19 +2,19 @@
 # there is no idempotent way to clean yum cache
 # https://github.com/ansible/ansible/pull/31450#issuecomment-352889579
 - name: RedHat | Clean yum cache
-  command: "yum clean all"
+  ansible.builtin.command: "yum clean all"
   when: os_updates_yum_clean_cache
   tags:
     - molecule-idempotence-notest
     - skip_ansible_lint
 
 - name: RedHat | Install yum-utils for needs-restarting
-  yum:
+  ansible.builtin.yum:
     name: yum-utils
     state: present
 
 - name: RedHat | Install OS Updates
-  yum:
+  ansible.builtin.yum:
     name: "*"
     update_cache: true
     state: latest
@@ -25,7 +25,7 @@
     - skip_ansible_lint
 
 - name: RedHat | Check if a reboot is required
-  shell: needs-restarting -r
+  ansible.builtin.shell: needs-restarting -r
   register: redhat_needs_restart
   ignore_errors: true
   changed_when: false
@@ -33,7 +33,7 @@
     - skip_ansible_lint
 
 - name: RedHat | Reboot machine if needed or forced
-  reboot:
+  ansible.builtin.reboot:
     post_reboot_delay: "{{ os_updates_reboot_delay | default('0') }}"
     reboot_timeout: "{{ os_updates_reboot_timeout }}"
   when:
