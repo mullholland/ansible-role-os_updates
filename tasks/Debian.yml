@@ -11,11 +11,6 @@
   with_items:
     - "{{ os_updates_apt_exclude }}"
 
-- name: Debian | APT autoremove
-  ansible.builtin.apt:
-    autoremove: true
-  when: os_updates_apt_autoremove | bool
-
 - name: Debian | Install OS Updates
   ansible.builtin.apt:
     upgrade: "full"
@@ -39,3 +34,8 @@
     - (debian_needs_restart.stat.exists and os_updates_reboot != "NEVER") or os_updates_reboot == "ALWAYS"
   tags:
     - molecule-notest
+
+- name: Debian | APT autoremove
+  ansible.builtin.apt:
+    autoremove: true
+  when: os_updates_apt_autoremove | bool
