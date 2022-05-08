@@ -1,13 +1,4 @@
 ---
-# there is no idempotent way to clean yum cache
-# https://github.com/ansible/ansible/pull/31450#issuecomment-352889579
-- name: RedHat | Clean yum cache
-  ansible.builtin.command: "yum clean all"
-  when: os_updates_yum_clean_cache
-  tags:
-    - molecule-idempotence-notest
-    - skip_ansible_lint
-
 - name: RedHat | Install yum-utils for needs-restarting
   ansible.builtin.yum:
     name: yum-utils
@@ -41,3 +32,12 @@
   # Docker COntianer cant reboot
   tags:
     - molecule-notest
+
+# there is no idempotent way to clean yum cache
+# https://github.com/ansible/ansible/pull/31450#issuecomment-352889579
+- name: RedHat | Clean yum cache
+  ansible.builtin.command: "yum clean all"
+  when: os_updates_yum_clean_cache
+  tags:
+    - molecule-idempotence-notest
+    - skip_ansible_lint
