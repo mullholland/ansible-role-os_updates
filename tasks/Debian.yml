@@ -38,4 +38,5 @@
 - name: Debian | APT autoremove
   ansible.builtin.apt:
     autoremove: true
+    autoclean: true
   when: os_updates_apt_autoremove | bool
