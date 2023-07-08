@@ -1,6 +1,8 @@
 ---
-- include: RedHat.yml
+- name: Install OS Updates on RedHat
+  ansible.builtin.include_tasks: RedHat.yml
   when: ansible_os_family == "RedHat" or ansible_os_family == "Rocky"
 
-- include: Debian.yml
+- name: Install OS Updates on Debian
+  ansible.builtin.include_tasks: Debian.yml
   when: ansible_os_family == "Debian"

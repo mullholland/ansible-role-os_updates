@@ -11,7 +11,6 @@ os_updates_yum_exclude: ""
 os_updates_yum_clean_cache: true
 
 # APT
-os_updates_apt_upgrade: "safe"
 # define packages which should not upgraded
 os_updates_apt_exclude: []
 os_updates_apt_autoremove: true
