@@ -35,8 +35,15 @@
   tags:
     - molecule-notest
 
-- name: Debian | APT autoremove
+# duplicate task
+# if both task are executed in the same task, they do not work
+- name: Debian | Remove dependencies that are no longer required and purge their configuration files
   ansible.builtin.apt:
     autoremove: true
+    purge: true
+  when: os_updates_apt_autoremove | bool
+
+- name: Debian | Remove useless packages from the cache
+  ansible.builtin.apt:
     autoclean: true
   when: os_updates_apt_autoremove | bool
