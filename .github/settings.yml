@@ -5,4 +5,4 @@
 repository:
   description: Ansible role to install OS updates.
   homepage: https://mullholland.net
-  topics: development, system, security, updates, ansible, molecule, tox, playbook
+  topics: development, system, security, updates, ansible, molecule, playbook
